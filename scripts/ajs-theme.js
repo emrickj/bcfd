@@ -41,8 +41,12 @@ app.controller('pname', ['$scope' ,'$rootScope' ,'$http' ,'$window' ,function($s
 			if (navitem.charAt(1)==" ") return '<i class="fa">'+navitem.charAt(0)+'</i>'+navitem.substring(1);
 			else return navitem;
 		};
-		$rootScope.img = dom.evaluate('/website/page['+$scope.pnum+']/image', dom, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null );
-		$rootScope.cnt = dom.evaluate('/website/page['+$scope.pnum+']/contents', dom, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null );
-		$rootScope.attr = dom.evaluate('/website/page['+$scope.pnum+']/@type', dom, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null );
+		$scope.render = function(pnum) {
+		    $scope.pnum = pnum;
+			$scope.img = dom.evaluate('/website/page['+pnum+']/image', dom, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null );
+			$scope.cnt = dom.evaluate('/website/page['+pnum+']/contents', dom, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null );
+			$scope.attr = dom.evaluate('/website/page['+pnum+']/@type', dom, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null );
+		};
+		$scope.render($scope.pnum);
     });
 }]);
