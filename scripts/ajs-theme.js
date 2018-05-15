@@ -72,13 +72,13 @@ app.controller('pname', ['$scope' ,'$rootScope' ,'$http' ,'$window' ,function($s
 		else return navitem;
 	};
 	var change_links = function(str) {
-		while (str.includes('"?p=')) {
-		   str=str.replace('"?p=1','"#" ng-click="render(1,'+w+')');
-		   str=str.replace('"?p=2','"#" ng-click="render(2,'+w+')');
-		   str=str.replace('"?p=3','"#" ng-click="render(3,'+w+')');
-		   str=str.replace('"?p=4','"#" ng-click="render(4,'+w+')');
-		   str=str.replace('"?p=5','"#" ng-click="render(5,'+w+')');
-		   str=str.replace('"?p=6','"#" ng-click="render(6,'+w+')');
+		if (w > 1) while (str.includes('"?p=')) {
+		   str=str.replace('"?p=1','"?w='+w+'&p=1');
+		   str=str.replace('"?p=2','"?w='+w+'&p=2');
+		   str=str.replace('"?p=3','"?w='+w+'&p=3');
+		   str=str.replace('"?p=4','"?w='+w+'&p=4');
+		   str=str.replace('"?p=5','"?w='+w+'&p=5');
+		   str=str.replace('"?p=6','"?w='+w+'&p=6');
 		}
 		return str;
 	};
