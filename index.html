@@ -16,21 +16,30 @@
 </head>
 <body id='demo' ng-controller="pname">
 <nav class="navbar navbar-expand-md bg-danger navbar-dark fixed-top">
-  <a class="navbar-brand" href="#" ng-bind-html="title.singleNodeValue.textContent | trustHtml">
-  {{title.singleNodeValue.textContent}}</a>
+  <a class="navbar-brand" href="#" ng-bind-html="title.singleNodeValue.textContent | trustHtml"></a>
   <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#myNavbar">
 	<span class="navbar-toggler-icon"></span>
   </button>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="navbar-nav">
         <li class='nav-item' ng-repeat="x in pnames">
-		<a class='nav-link {{active($index+1,"active")}}' href="#" ng-click="render($index+1)" ng-bind-html="ic_html(x) | trustHtml">
-		{{ic_html(x)}}</a>
+			<a class='nav-link{{active($index+1," active",1)}}' href="#" ng-click="render($index+1,1)"
+			ng-bind-html="ic_html(x) | trustHtml"></a>
+		</li>
+		<!-- Dropdown -->
+		<li class="nav-item dropdown">
+		  <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+			{{title2.singleNodeValue.textContent | trustHtml}}
+		  </a>
+		  <div class="dropdown-menu">
+			<a class='dropdown-item{{active($index+1," active",2)}}' href="#" ng-click="render($index+1,2)"
+			ng-repeat="x in pnames2" ng-bind-html="ic_html(x) | trustHtml"></a>
+		  </div>
 		</li>
       </ul>
     </div>
 </nav>
-   <div class="container" style="padding-top: 56px;">
+   <div class="container" style="padding-top: 56px;padding-bottom: 20px;">
       <div class="row">
          <div class="col-md-2">
          </div>
@@ -45,7 +54,7 @@
          <div class="col-md-2">
          </div>
          <div class="col-md-8">
-            <div ng-bind-html="cnt.singleNodeValue.textContent | trustHtml">{{cnt.singleNodeValue.textContent}}</div>
+            <div ng-bind-html="contents | trustHtml"></div>
 			<form class="form-horizontal" role="form" method="post" ng-show="attr.singleNodeValue.textContent == 'form'">
 			  <div class="form-group row">
 				 <label class="col-form-label col-sm-4" for="name">Name:</label>
@@ -79,7 +88,7 @@
 				<div id="HCB_comment_box" style="background-color: transparent;"><a href="https://www.htmlcommentbox.com">HTML Comment Box</a> is loading comments...</div>
 				<link rel="stylesheet" type="text/css" href="https://www.htmlcommentbox.com/static/skins/default/skin.css" />
 				<script type="text/javascript" language="javascript" id="hcb"> /*<!--*/ if(!window.hcb_user){hcb_user={  };} (function(){s=document.createElement("script");s.setAttribute("type","text/javascript");s.setAttribute("src", "https://www.htmlcommentbox.com/jread?page="+escape((window.hcb_user && hcb_user.PAGE)||(""+window.location)).replace("+","%2B")+"&opts=470&num=10");if (typeof s!="undefined") document.getElementsByTagName("head")[0].appendChild(s);})(); /*-->*/ </script>
-				<!-- end htmlcommentbox.com --><?php
+				<!-- end htmlcommentbox.com -->
 			</div>
          </div>
          <div class="col-md-2">
