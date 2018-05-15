@@ -10,43 +10,84 @@ app.filter('trustHtml', [
 app.controller('pname', ['$scope' ,'$rootScope' ,'$http' ,'$window' ,function($scope, $rootScope, $http, $window) {
 	var url = $window.location.href;
 	var pos = url.search("p=[1-6]");
-	if (pos != -1) $scope.pnum = url.charAt(pos+2); else $scope.pnum = "1";
-    $http.get("data/website.xml").then(function (response) {
-        if (typeof DOMParser != "undefined") {
-            var parser = new DOMParser();
-            dom = parser.parseFromString(response.data, "text/xml");
-        }
-        else {
-            var doc = new ActiveXObject("Microsoft.XMLDOM");
-            doc.async = false;
-            dom = doc.loadXML(response.data);
-        }
-        // Now response is a DOMDocument with childNodes etc.
-		$scope.pnames = [];
-		$rootScope.strip_tags = function(str) {
-			var pos=str.lastIndexOf("> ");
-			if (pos != -1) str=str.substring(pos+2);
-			pos=str.lastIndexOf(" <");
-			if (pos != -1) str=str.substring(0,pos);
-			return str;
-		};
-		$rootScope.title = dom.evaluate('/website/title', dom, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null );
-		$rootScope.style = dom.evaluate('/website/style', dom, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null );
-		var pn = dom.evaluate("/website/page/name[.!='']", dom, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null );
-		for ( var i=0 ; i < pn.snapshotLength; i++ ) $scope.pnames.push(pn.snapshotItem(i).textContent);
-		$scope.active = function(x,as) {
-			if (x==$scope.pnum) return as; else return "";
-		};
-		$scope.ic_html = function(navitem) {
-			if (navitem.charAt(1)==" ") return '<i class="fa">'+navitem.charAt(0)+'</i>'+navitem.substring(1);
-			else return navitem;
-		};
-		$scope.render = function(pnum) {
-		    $scope.pnum = pnum;
-			$scope.img = dom.evaluate('/website/page['+pnum+']/image', dom, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null );
-			$scope.cnt = dom.evaluate('/website/page['+pnum+']/contents', dom, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null );
-			$scope.attr = dom.evaluate('/website/page['+pnum+']/@type', dom, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null );
-		};
-		$scope.render($scope.pnum);
-    });
+	var p, w;
+	if (pos != -1) p = url.charAt(pos+2); else p = "1";
+	pos = url.search("w=[1-9]");
+	if (pos != -1) w = url.charAt(pos+2); else w = "1";
+	$rootScope.strip_tags = function(str) {
+		var pos=str.lastIndexOf("> ");
+		if (pos != -1) str=str.substring(pos+2);
+		pos=str.lastIndexOf(" <");
+		if (pos != -1) str=str.substring(0,pos);
+		return str;
+	};
+	var dom = [], fileNameList = [];
+	// -----------------------------------
+	fileNameList.push('data/website.xml');
+	fileNameList.push('data/website2.xml');
+	// Add/Remove website data files here.
+	var file = fileNameList.shift();
+	var xml_dom = function() {
+		$http.get(file).then(function (response) {
+			if (typeof DOMParser != "undefined") {
+				var parser = new DOMParser();
+				xmldata = parser.parseFromString(response.data, "text/xml");
+			}
+			else {
+				var doc = new ActiveXObject("Microsoft.XMLDOM");
+				doc.async = false;
+				xmldata = doc.loadXML(response.data);
+			}
+			dom.push(xmldata);
+			if (fileNameList.length != 0) {
+				file = fileNameList.shift();
+				xml_dom();
+			} else {
+				$rootScope.title = dom[0].evaluate('/website/title', dom[0], null, XPathResult.FIRST_ORDERED_NODE_TYPE, null );
+				$rootScope.style = dom[0].evaluate('/website/style', dom[0], null, XPathResult.FIRST_ORDERED_NODE_TYPE, null );
+				$scope.pnames = [];
+				var pn = dom[0].evaluate("/website/page/name[.!='']", dom[0], null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null );
+				for ( var i=0 ; i < pn.snapshotLength; i++ ) $scope.pnames.push(pn.snapshotItem(i).textContent);
+				// The following is used for contents of drop-down.
+				$scope.title2 = dom[1].evaluate('/website/title', dom[1], null, XPathResult.FIRST_ORDERED_NODE_TYPE, null );
+				$scope.pnames2 = [];
+				pn = dom[1].evaluate("/website/page/name[.!='']", dom[1], null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null );
+				for ( i=0 ; i < pn.snapshotLength; i++ ) $scope.pnames2.push(pn.snapshotItem(i).textContent);
+				// The following code is used for contents of an additional drop-down.
+				// $scope.title3 = dom[2].evaluate('/website/title', dom[2], null, XPathResult.FIRST_ORDERED_NODE_TYPE, null );
+				// $scope.pnames3 = [];
+				// pn = dom[2].evaluate("/website/page/name[.!='']", dom[2], null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null );
+				// for ( i=0 ; i < pn.snapshotLength; i++ ) $scope.pnames3.push(pn.snapshotItem(i).textContent);
+				// ------------------------------------------------
+				$scope.render(p,w);
+			}
+		});
+	};
+	xml_dom();
+	$scope.active = function(x,as,wd) {
+		if (x==p && wd==w) return as; else return "";
+	};
+	$scope.ic_html = function(navitem) {
+		if (navitem.charAt(1)==" ") return '<i class="fa">'+navitem.charAt(0)+'</i>'+navitem.substring(1);
+		else return navitem;
+	};
+	var change_links = function(str) {
+		while (str.includes('"?p=')) {
+		   str=str.replace('"?p=1','"#" ng-click="render(1,'+w+')');
+		   str=str.replace('"?p=2','"#" ng-click="render(2,'+w+')');
+		   str=str.replace('"?p=3','"#" ng-click="render(3,'+w+')');
+		   str=str.replace('"?p=4','"#" ng-click="render(4,'+w+')');
+		   str=str.replace('"?p=5','"#" ng-click="render(5,'+w+')');
+		   str=str.replace('"?p=6','"#" ng-click="render(6,'+w+')');
+		}
+		return str;
+	};
+	$scope.render = function(pnum,ws) {
+		p = pnum;
+		w = ws;
+		$scope.img = dom[ws-1].evaluate('/website/page['+pnum+']/image', dom[ws-1], null, XPathResult.FIRST_ORDERED_NODE_TYPE, null );
+		cnt = dom[ws-1].evaluate('/website/page['+pnum+']/contents', dom[ws-1], null, XPathResult.FIRST_ORDERED_NODE_TYPE, null );
+		$scope.contents = change_links(cnt.singleNodeValue.textContent);
+		$scope.attr = dom[ws-1].evaluate('/website/page['+pnum+']/@type', dom[ws-1], null, XPathResult.FIRST_ORDERED_NODE_TYPE, null );
+	};
 }]);
