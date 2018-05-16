@@ -14,84 +14,95 @@
 {{style.singleNodeValue.textContent}}
 </style>
 </head>
-<body id='demo' ng-controller="pname">
-<nav class="navbar navbar-expand-md bg-danger navbar-dark fixed-top">
+<body id="demo" ng-controller="pname">
+<div class="d-block d-md-none">
+<nav class="navbar bg-dark navbar-dark fixed-top">
   <a class="navbar-brand" href="#" ng-bind-html="title.singleNodeValue.textContent | trustHtml"></a>
   <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#myNavbar">
 	<span class="navbar-toggler-icon"></span>
   </button>
-    <div class="collapse navbar-collapse" id="myNavbar">
-      <ul class="navbar-nav">
+  <div class="collapse navbar-collapse" id="myNavbar">
+    <ul class="navbar-nav">
         <li class='nav-item' ng-repeat="x in pnames">
 			<a class='nav-link{{active($index+1," active",1)}}' href="#" ng-click="render($index+1,1)"
 			ng-bind-html="ic_html(x) | trustHtml"></a>
 		</li>
-		<!-- Dropdown -->
-		<li class="nav-item dropdown">
-		  <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-			{{title2.singleNodeValue.textContent | trustHtml}}
-		  </a>
-		  <div class="dropdown-menu">
-			<a class='dropdown-item{{active($index+1," active",2)}}' href="#" ng-click="render($index+1,2)"
-			ng-repeat="x in pnames2" ng-bind-html="ic_html(x) | trustHtml"></a>
-		  </div>
-		</li>
-      </ul>
-    </div>
+	</ul>
+  </div>
 </nav>
-   <div class="container" style="padding-top: 56px;padding-bottom: 20px;">
+</div>
+   <div class="container" style="padding-bottom: 20px;">
+      <div class="d-block d-md-none" style="padding-top: 50px;"></div>
       <div class="row">
-         <div class="col-md-2">
+         <div class="col-md-3" style="padding: 20px" id="title">
+         <b><h2><center ng-bind-html="title.singleNodeValue.textContent | trustHtml"></center></h2></b>
          </div>
-         <div class="col-md-8">
+         <div class="col-md-9" style="padding-bottom: 20px;">
             <img class='img-fluid' src='{{img.singleNodeValue.textContent}}'>
-            <br>
-         </div>
-         <div class="col-md-2">
          </div>
       </div>
       <div class="row">
-         <div class="col-md-2">
+         <div class="col-md-3 d-none d-md-block">
+                  <br>
+                  <div class="btn-group-vertical btn-group-lg" style="position: fixed;">
+                     <a href='#' class='btn btn-primary{{active($index+1," active",1)}}' ng-repeat="x in pnames"
+					 ng-click="render($index+1,1)" ng-bind-html="ic_html(x) | trustHtml"></a>
+					 <ul class="dropdown-menu" role="menu">
+						 <li ng-repeat="x in pnames2">
+							<a class='dropdown-item{{active($index+1," active",2)}}' href="#"
+							ng-click="render($index+1,2)" ng-bind-html="ic_html(x) | trustHtml"></a>
+						 </li>
+                     </ul>
+                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                     {{title2.singleNodeValue.textContent | trustHtml}} <span class="caret"></span></button>
+                  </div>
+                  <br>
+                  <br>
          </div>
-         <div class="col-md-8">
-            <div ng-bind-html="contents | trustHtml"></div>
-			<form class="form-horizontal" role="form" method="post" ng-show="attr.singleNodeValue.textContent == 'form'">
-			  <div class="form-group row">
-				 <label class="col-form-label col-sm-4" for="name">Name:</label>
-				 <div class="col-sm-6">
-					<input type="text" class="form-control" name="name">
-				 </div>
-			  </div>
-			  <div class="form-group row">
-				 <label class="col-form-label col-sm-4" for="email">Email Address:</label>
-				 <div class="col-sm-6">
-					<input type="email" class="form-control" name="email">
-				 </div>
-			  </div>
-			  <div class="form-group row">
-				 <label class="col-form-label col-sm-4" for="subject">Subject:</label>
-				 <div class="col-sm-6">
-					<input type="text" class="form-control" name="subject">
-				 </div>
-			  </div>
-			  <div class="form-group row">
-				 <label class="col-form-label col-sm-4" for="message">Message:</label>
-				 <div class="col-sm-6">
-					<textarea class="form-control" rows="5" name="message"></textarea>
-					<br>
-					<input type="submit" class="btn btn-danger" value="Submit">
-				 </div>
-			  </div>
-			</form>
-			<div ng-show="attr.singleNodeValue.textContent == 'comments'">
-				<!-- begin htmlcommentbox.com -->
-				<div id="HCB_comment_box" style="background-color: transparent;"><a href="https://www.htmlcommentbox.com">HTML Comment Box</a> is loading comments...</div>
-				<link rel="stylesheet" type="text/css" href="https://www.htmlcommentbox.com/static/skins/default/skin.css" />
-				<script type="text/javascript" language="javascript" id="hcb"> /*<!--*/ if(!window.hcb_user){hcb_user={  };} (function(){s=document.createElement("script");s.setAttribute("type","text/javascript");s.setAttribute("src", "https://www.htmlcommentbox.com/jread?page="+escape((window.hcb_user && hcb_user.PAGE)||(""+window.location)).replace("+","%2B")+"&opts=470&num=10");if (typeof s!="undefined") document.getElementsByTagName("head")[0].appendChild(s);})(); /*-->*/ </script>
-				<!-- end htmlcommentbox.com -->
-			</div>
-         </div>
-         <div class="col-md-2">
+         <div class="col-md-9">
+           <div class="card bg-light">
+               <div class="card-body">
+					<div ng-bind-html="contents | trustHtml"></div>
+					<form class="form-horizontal" role="form" method="post" ng-show="attr.singleNodeValue.textContent == 'form'">
+					  <div class="form-group row">
+						 <label class="col-form-label col-sm-4" for="name">Name:</label>
+						 <div class="col-sm-6">
+							<input type="text" class="form-control" name="name">
+						 </div>
+					  </div>
+					  <div class="form-group row">
+						 <label class="col-form-label col-sm-4" for="email">Email Address:</label>
+						 <div class="col-sm-6">
+							<input type="email" class="form-control" name="email">
+						 </div>
+					  </div>
+					  <div class="form-group row">
+						 <label class="col-form-label col-sm-4" for="subject">Subject:</label>
+						 <div class="col-sm-6">
+							<input type="text" class="form-control" name="subject">
+						 </div>
+					  </div>
+					  <div class="form-group row">
+						 <label class="col-form-label col-sm-4" for="message">Message:</label>
+						 <div class="col-sm-6">
+							<textarea class="form-control" rows="5" name="message"></textarea>
+							<br>
+							<input type="submit" class="btn btn-danger" value="Submit">
+						 </div>
+					  </div>
+					</form>
+					<div ng-show="attr.singleNodeValue.textContent == 'comments'">
+						<!-- begin htmlcommentbox.com -->
+						<div id="HCB_comment_box" style="background-color: transparent;"><a href="https://www.htmlcommentbox.com">HTML Comment Box</a> is loading comments...</div>
+						<link rel="stylesheet" type="text/css" href="https://www.htmlcommentbox.com/static/skins/default/skin.css" />
+						<script type="text/javascript" language="javascript" id="hcb"> /*<!--*/ if(!window.hcb_user){hcb_user={  };} (function(){s=document.createElement("script");s.setAttribute("type","text/javascript");s.setAttribute("src", "https://www.htmlcommentbox.com/jread?page="+escape((window.hcb_user && hcb_user.PAGE)||(""+window.location)).replace("+","%2B")+"&opts=470&num=10");if (typeof s!="undefined") document.getElementsByTagName("head")[0].appendChild(s);})(); /*-->*/ </script>
+						<!-- end htmlcommentbox.com -->
+					</div>
+               </div>
+				<div class="card-footer">
+					<center>This website was created using <a href="https://www.gem-editor.com">GEM</a>.</center>
+				</div>			   
+           </div>
          </div>
       </div>
    </div>
@@ -100,4 +111,10 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script src="scripts/ajs-theme.js"></script>
 </body>
+<script>
+
+//if ($(".container").height() < window.outerHeight)
+//   $(".container").height(window.outerHeight);
+
+</script>
 </html>
