@@ -1,0 +1,42 @@
+               <form class="form-horizontal" role="form">
+                  <div class="form-group">
+                     <label class="control-label col-sm-4" for="offset">
+                        Offset (bytes):
+                     </label>
+                     <input type="number" id="sub2" value="0" min="0" max="99999" size="2">
+                  </div>
+                  <div class="form-group">
+                     <label class="control-label col-sm-4" for="length">
+                        Length (bytes):
+                     </label>
+                     <input type="number" id="sub3" value="0" min="0" max="99999" size="2">
+                  </div>
+                  <div class="form-group">
+                     <label class="control-label col-sm-4" for="height">
+                        Character Height:
+                     </label>
+                     <input type="number" id="sub4" value="8" min="0" max="99" size="2">
+                  </div>
+                  <div class="form-group">
+                     <label class="control-label col-sm-4" for="width">
+                        Character Width:
+                     </label>
+                     <select id="sub5">
+                        <option selected value="0">8
+                        <option value="1">16
+                     </select>
+                  </div>
+                  <div class="form-group">
+                     <label class="control-label col-sm-4" for="rchar">
+                        <input type="checkbox" id="chbx1" value="1">
+                        Reverse Char
+                     </label>
+                  </div>
+                  <div class="form-group">
+                     <div class="col-sm-10">
+                        <input type="file" class="form-control" id="files" name="files[]" />
+                        <output id="list"></output>
+                     </div>
+                  </div>
+               </form>
+
