@@ -56,7 +56,7 @@ $(function() {
 
  function readSingleFile(evt) {
              var xhr = new XMLHttpRequest();
-             xhr.open('GET','/chsets/Chguk101.rom',true);
+             xhr.open('GET','chsets/Chguk101.rom',true);
              xhr.responseType = 'arraybuffer';
              xhr.onload = function(e) { 
                 var view = new Uint8Array(this.response);
