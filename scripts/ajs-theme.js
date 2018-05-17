@@ -26,8 +26,8 @@ app.controller('pname', ['$scope' ,'$rootScope' ,'$http' ,'$window' ,function($s
 	fileNameList.push('data/website.xml');
 	fileNameList.push('data/website2.xml');
 	// Add/Remove website data files here.
-	var file = fileNameList.shift();
-	var xml_dom = function() {
+	var xml_dom = function(flist) {
+		var file = flist.shift();
 		$http.get(file).then(function (response) {
 			if (typeof DOMParser != "undefined") {
 				var parser = new DOMParser();
@@ -39,10 +39,7 @@ app.controller('pname', ['$scope' ,'$rootScope' ,'$http' ,'$window' ,function($s
 				xmldata = doc.loadXML(response.data);
 			}
 			dom.push(xmldata);
-			if (fileNameList.length != 0) {
-				file = fileNameList.shift();
-				xml_dom();
-			} else {
+			if (flist.length != 0) xml_dom(flist); else {
 				$rootScope.title = dom[0].evaluate('/website/title', dom[0], null, XPathResult.FIRST_ORDERED_NODE_TYPE, null );
 				$rootScope.style = dom[0].evaluate('/website/style', dom[0], null, XPathResult.FIRST_ORDERED_NODE_TYPE, null );
 				$scope.pnames = [];
@@ -63,7 +60,7 @@ app.controller('pname', ['$scope' ,'$rootScope' ,'$http' ,'$window' ,function($s
 			}
 		});
 	};
-	xml_dom();
+	xml_dom(fileNameList);
 	$scope.active = function(x,as,wd) {
 		if (x==p && wd==w) return as; else return "";
 	};
