@@ -1,0 +1,16 @@
+body {background:#C0C0FF;}
+.ca {
+    display: inline-block;
+    height: 19px;
+}
+.cr {display: block;clear:right;}
+t3 t1 {float:left;background-color:blue;
+    width: 3px;height: 3px;}
+t3 t2 {float:left;
+    width: 3px;height: 3px;}
+t4 t1 {float:right;background-color:blue;
+    width: 3px;height: 3px;}
+t4 t2 {float:right;
+    width: 3px;height: 3px;}
+t3 {display: block;clear:left;}
+t4 {display: block;clear:right;}
