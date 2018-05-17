@@ -63,6 +63,7 @@
            <div class="card bg-light">
                <div class="card-body">
 					<div ng-bind-html="contents | trustHtml"></div>
+					<div ng-include="'scripts/bcfd_input.html'" ng-show="attr.singleNodeValue.textContent == 'input'"></div>
 					<form class="form-horizontal" role="form" method="post" ng-show="attr.singleNodeValue.textContent == 'form'">
 					  <div class="form-group row">
 						 <label class="col-form-label col-sm-4" for="name">Name:</label>
@@ -106,10 +107,77 @@
          </div>
       </div>
    </div>
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script src="scripts/ajs-theme.js"></script>
+<SCRIPT LANGUAGE="JavaScript">
+
+if (window.File && window.FileReader && window.FileList && window.Blob) {
+  // Great success! All the File APIs are supported.
+} else {
+  alert('The File APIs are not fully supported in this browser.');
+}
+
+// Modified so it will work on IE.
+
+ function readSingleFile(evt) {
+    //Retrieve the first (and only!) File from the FileList object
+   var f = evt.target.files[0]; 
+
+    if (!f) {
+        alert("Failed to load file");
+    } else if (!(f.name.match(/rom/i) || f.name.match(/bin/i) || f.name.match(/64c/i) ||
+                 f.name.match(/fnt/i) || f.name.match(/fon/i) || f.name.match(/psfu/i))) {
+		    alert(f.name + " is not a valid binary character file.");
+    } else {
+             var r = new FileReader();
+             r.onload = function(e) { 
+	        var buffer = e.target.result;
+                var os = parseInt($("#sub2").val());
+                var l = parseInt($("#sub3").val());
+                var ch = parseInt($("#sub4").val());
+                if (document.getElementById("chbx1").checked) var tn="4"; else var tn="3";
+                var cw = parseInt($("#sub5").val());
+                if (cw) {
+                   if (l) var view = new Uint16Array(buffer,os,l); else var view = new Uint16Array(buffer,os);
+                }
+                else {
+                   if (l) var view = new Uint8Array(buffer,os,l); else var view = new Uint8Array(buffer,os);
+                }
+                var nbe = view.BYTES_PER_ELEMENT;
+                var binary_string = "";
+                for (idx=0;idx<view.length;idx++) {
+                   var v = view[idx];
+                   var c = idx % ch;
+                   if (c==0) {
+                      var h = idx / ch;
+                      binary_string+="<cd data-toggle='tooltip' data-placement='auto top' title='" + 
+                                     h.toString(16) + ' (' + h.toString(10)+")'>";
+                   }
+                   var j = 1;
+                   binary_string += '<t' + tn + '>';
+                   do {
+                      var b = v & 0xFF;
+                  
+                      for (var i =0; i < 8; ++i)
+                         binary_string += (b & (1<<(7-i))) ? "<t1></t1>" : "<t2></t2>";
+                      v >>= 8;                  
+                   } while (nbe > j++);
+                   binary_string += '</t' + tn + '>';
+                   if (c==(ch-1)) binary_string+="</cd>";
+                }
+                //document.write(binary_string);
+                $("#demo").html(binary_string);
+                $('[data-toggle="tooltip"]').tooltip();
+             }
+             r.readAsArrayBuffer(f);
+           }
+    }
+
+  document.getElementById('files').addEventListener('change', readSingleFile, false);
+
+</SCRIPT>
 </body>
 <script>
 
