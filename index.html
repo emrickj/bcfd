@@ -50,7 +50,18 @@ t4 {display: block;clear:right;}
       <div class="d-block d-md-none" style="padding-top: 50px;"></div>
       <div class="row">
          <div class="col-md-3" style="padding: 20px" id="title">
-         <b><h2><center ng-bind-html="title.singleNodeValue.textContent | trustHtml"></center></h2></b>
+		 <svg height="50" width="450">
+		    <filter id="lightMe1">
+		      <feDiffuseLighting in="SourceGraphic" result="light"
+			 lighting-color="white">
+		      <fePointLight x="225" y="60" z="40" />
+		      </feDiffuseLighting>
+
+		      <feComposite in="SourceGraphic" in2="light"
+			 operator="arithmetic" k1="1" k2="0" k3="0" k4="0"/>
+		    </filter>
+		    <text font-size="45" font-weight="bold" x="0" y="45" fill="white" filter="url(#lightMe1)">{{title.singleNodeValue.textContent}}</text> 
+		 </svg>
          </div>
          <div class="col-md-9" style="padding-bottom: 20px;">
             <img class='img-fluid' src='{{img.singleNodeValue.textContent}}'>
@@ -76,6 +87,9 @@ t4 {display: block;clear:right;}
          </div>
          <div class="col-md-9">
            <div class="card bg-light">
+	       <div class="card-header bg-primary text-white" ng-show="attr.singleNodeValue.textContent == 'input'">
+		       <center>Raster Font Viewer - Input & Display</center>
+		   </div>
                <div class="card-body">
 					<div ng-bind-html="contents | trustHtml"></div>
 				   <form class="form-horizontal" role="form" ng-show="attr.singleNodeValue.textContent == 'input'">
