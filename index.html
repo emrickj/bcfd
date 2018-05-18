@@ -86,11 +86,11 @@ t4 {display: block;clear:right;}
                   <br>
          </div>
          <div class="col-md-9">
-           <div class="card bg-light">
-	       <div class="card-header bg-primary text-white" ng-show="attr.singleNodeValue.textContent == 'input'">
+           <div class="card bg-primary">
+	       <div class="card-header text-white" ng-show="attr.singleNodeValue.textContent == 'input'">
 		       <center>Raster Font Viewer - Input & Display</center>
 		   </div>
-               <div class="card-body">
+               <div class="card-body bg-light">
 					<div ng-bind-html="contents | trustHtml"></div>
 				   <form class="form-horizontal" role="form" ng-show="attr.singleNodeValue.textContent == 'input'">
 					  <div class="form-group">
@@ -169,7 +169,7 @@ t4 {display: block;clear:right;}
 						<!-- end htmlcommentbox.com -->
 					</div>
                </div>
-				<div class="card-footer">
+				<div class="card-footer bg-light">
 					<center>This website was created using <a href="https://www.gem-editor.com">GEM</a>.</center>
 				</div>			   
            </div>
