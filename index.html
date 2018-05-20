@@ -129,7 +129,7 @@ t4 {display: block;clear:right;}
 					  </div>
 					  <div class="form-group">
 						 <div class="col-sm-10">
-							<input type="file" class="form-control" id="files" name="files[]" />
+							<input type="file" class="form-control" id="files" name="files[]" multiple/>
 							<output id="list"></output>
 						 </div>
 					  </div>
@@ -187,10 +187,11 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
 }
 
 // Modified so it will work on IE.
+	
+var binary_string = "";
 
  function readSingleFile(evt) {
-    //Retrieve the first (and only!) File from the FileList object
-   var f = evt.target.files[0]; 
+   var f = evt.target.files.shift(); 
 
     if (!f) {
         alert("Failed to load file");
@@ -213,7 +214,7 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
                    if (l) var view = new Uint8Array(buffer,os,l); else var view = new Uint8Array(buffer,os);
                 }
                 var nbe = view.BYTES_PER_ELEMENT;
-                var binary_string = "";
+                var binary_string+="<div>"+f.name+"</div>";
                 for (idx=0;idx<view.length;idx++) {
                    var v = view[idx];
                    var c = idx % ch;
@@ -234,9 +235,12 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
                    binary_string += '</t' + tn + '>';
                    if (c==(ch-1)) binary_string+="</cd>";
                 }
-                //document.write(binary_string);
-                $("#demo").html(binary_string);
-                $('[data-toggle="tooltip"]').tooltip();
+		if (evt.target.files.length != 0) readSingleFile(evt);
+		   else {
+   	             //document.write(binary_string);
+           	     $("#demo").html(binary_string);
+         	     $('[data-toggle="tooltip"]').tooltip();
+		   }
              }
              r.readAsArrayBuffer(f);
            }
