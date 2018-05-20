@@ -189,15 +189,19 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
 // Modified so it will work on IE.
 	
 var binary_string = "";
+function getFiles(evt) {
+	var f = evt.target.files;
+	readSingleFile(f);
+}
 
- function readSingleFile(evt) {
-   var f = evt.target.files.shift(); 
+ function readSingleFile(files) {
+   var item = files.shift(); 
 
-    if (!f) {
+    if (!item) {
         alert("Failed to load file");
-    } else if (!(f.name.match(/rom/i) || f.name.match(/bin/i) || f.name.match(/64c/i) ||
-                 f.name.match(/fnt/i) || f.name.match(/fon/i) || f.name.match(/psfu/i))) {
-		    alert(f.name + " is not a valid binary character file.");
+    } else if (!(item.name.match(/rom/i) || item.name.match(/bin/i) || item.name.match(/64c/i) ||
+                 item.name.match(/fnt/i) || item.name.match(/fon/i) || item.name.match(/psfu/i))) {
+		    alert(item.name + " is not a valid binary character file.");
     } else {
              var r = new FileReader();
              r.onload = function(e) { 
@@ -214,7 +218,7 @@ var binary_string = "";
                    if (l) var view = new Uint8Array(buffer,os,l); else var view = new Uint8Array(buffer,os);
                 }
                 var nbe = view.BYTES_PER_ELEMENT;
-                binary_string+="<div>"+f.name+"</div>";
+                binary_string+="<div>"+item.name+"</div>";
                 for (idx=0;idx<view.length;idx++) {
                    var v = view[idx];
                    var c = idx % ch;
@@ -235,7 +239,7 @@ var binary_string = "";
                    binary_string += '</t' + tn + '>';
                    if (c==(ch-1)) binary_string+="</cd>";
                 }
-		if (evt.target.files.length != 0) readSingleFile(evt);
+		if (files.length != 0) readSingleFile(files);
 		   else {
    	             //document.write(binary_string);
            	     $("#demo").html(binary_string);
@@ -246,7 +250,7 @@ var binary_string = "";
            }
     }
 
-  document.getElementById('files').addEventListener('change', readSingleFile, false);
+  document.getElementById('files').addEventListener('change', getFiles, false);
 
 </SCRIPT>
 </body>
