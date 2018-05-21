@@ -190,8 +190,8 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
 	
 var binary_string = "";
 function getFiles(evt) {
-	var f = evt.target.files.name;
-	alert(f);
+	var f = evt.target.files[0];
+	alert(f.name);
 	readSingleFile(f);
 }
 
