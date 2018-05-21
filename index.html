@@ -215,7 +215,7 @@ var fn = 0;
                    if (l) var view = new Uint8Array(buffer,os,l); else var view = new Uint8Array(buffer,os);
                 }
                 var nbe = view.BYTES_PER_ELEMENT;
-                binary_string+="<div>"+item.name+"</div>";
+                binary_string+="<div>"+f.name+"</div>";
                 for (idx=0;idx<view.length;idx++) {
                    var v = view[idx];
                    var c = idx % ch;
