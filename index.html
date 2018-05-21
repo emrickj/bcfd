@@ -189,20 +189,16 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
 // Modified so it will work on IE.
 	
 var binary_string = "";
-function getFiles(evt) {
-	var f = evt.target.files[0];
-	alert(f.name);
-	readSingleFile(f);
-}
+var fn = 0;
+	
+ function readSingleFile(evt) {
+   var f = evt.target.files[fn]; 
 
- function readSingleFile(files) {
-   var item = files.shift(); 
-
-    if (!item) {
+    if (!f) {
         alert("Failed to load file");
-    } else if (!(item.name.match(/rom/i) || item.name.match(/bin/i) || item.name.match(/64c/i) ||
-                 item.name.match(/fnt/i) || item.name.match(/fon/i) || item.name.match(/psfu/i))) {
-		    alert(item.name + " is not a valid binary character file.");
+    } else if (!(f.name.match(/rom/i) || f.name.match(/bin/i) || f.name.match(/64c/i) ||
+                 f.name.match(/fnt/i) || f.name.match(/fon/i) || f.name.match(/psfu/i))) {
+		    alert(f.name + " is not a valid binary character file.");
     } else {
              var r = new FileReader();
              r.onload = function(e) { 
@@ -240,7 +236,7 @@ function getFiles(evt) {
                    binary_string += '</t' + tn + '>';
                    if (c==(ch-1)) binary_string+="</cd>";
                 }
-		if (files.length != 0) readSingleFile(files);
+		if (++fn != evt.target.files.length) readSingleFile(evt);
 		   else {
    	             //document.write(binary_string);
            	     $("#demo").html(binary_string);
@@ -251,7 +247,7 @@ function getFiles(evt) {
            }
     }
 
-  document.getElementById('files').addEventListener('change', getFiles, false);
+  document.getElementById('files').addEventListener('change', readSingleFile, false);
 
 </SCRIPT>
 </body>
