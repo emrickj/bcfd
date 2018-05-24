@@ -1,4 +1,4 @@
-# Default values of Input & Display page.
+# Default values of Input & Display form.
 offset: 0
 length: 0
 character_height: 8
