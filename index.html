@@ -100,32 +100,41 @@ t4 {display: block;clear:right;}
 						 <label class="control-label col-sm-4" for="offset">
 							Offset (bytes):
 						 </label>
-						 <input type="number" id="sub2" value="0" min="0" max="99999" size="2">
+						 <input type="number" id="sub2" value="{{ site.offset }}" min="0" max="99999" size="2">
 					  </div>
 					  <div class="form-group">
 						 <label class="control-label col-sm-4" for="length">
 							Length (bytes):
 						 </label>
-						 <input type="number" id="sub3" value="0" min="0" max="99999" size="2">
+						 <input type="number" id="sub3" value="{{ site.length }}" min="0" max="99999" size="2">
 					  </div>
 					  <div class="form-group">
 						 <label class="control-label col-sm-4" for="height">
 							Character Height:
 						 </label>
-						 <input type="number" id="sub4" value="8" min="0" max="99" size="2">
+						 <input type="number" id="sub4" value="{{ site.character_height }}" min="0" max="99" size="2">
 					  </div>
 					  <div class="form-group">
 						 <label class="control-label col-sm-4" for="width">
 							Character Width:
 						 </label>
 						 <select id="sub5">
+						     {% if site.character_width == 16 %}
+							<option value="0">8
+							<option selected value="1">16
+						     {% else %}
 							<option selected value="0">8
 							<option value="1">16
+						     {% endif %}
 						 </select>
 					  </div>
 					  <div class="form-group">
+				 		{% assign rc = "" %}
+						{% if site.reverse_char %}
+		    				    {% assign rc = " checked" %}
+						{% endif %}
 						 <label class="control-label col-sm-4" for="rchar">
-							<input type="checkbox" id="chbx1" value="1">
+							<input type="checkbox" id="chbx1" value="1"{{ rc }}>
 							Reverse Char
 						 </label>
 					  </div>
