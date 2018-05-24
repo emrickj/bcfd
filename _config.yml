@@ -1,6 +1,6 @@
 # Default values of Input & Display page.
-offset: 256
-length: 128
-character_height: 10
-character_width: 16
-reverse_char: true
+offset: 0
+length: 0
+character_height: 8
+character_width: 8
+reverse_char: false
