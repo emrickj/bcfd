@@ -1,0 +1,6 @@
+# Default values of Input & Display form.
+offset: 0
+length: 0
+character_height: 8
+character_width: 8
+reverse_char: false

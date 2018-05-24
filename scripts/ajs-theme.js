@@ -1,4 +1,7 @@
-app = angular.module('myApp',[]);
+app = angular.module('myApp',[], function($interpolateProvider) {
+  $interpolateProvider.startSymbol('<|');
+  $interpolateProvider.endSymbol('|>');
+});
 app.filter('trustHtml', [
         '$sce',
         function($sce) {
