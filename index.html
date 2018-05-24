@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-	<title>{{strip_tags(title.singleNodeValue.textContent)}}</title>
+	<title><|strip_tags(title.singleNodeValue.textContent)|></title>
 <style>
 @media (min-width: 576px) {
 	form label {text-align: right;}
@@ -40,7 +40,7 @@ t4 {display: block;clear:right;}
   <div class="collapse navbar-collapse" id="myNavbar">
     <ul class="navbar-nav">
         <li class='nav-item' ng-repeat="x in pnames">
-			<a class='nav-link{{active($index+1," active",1)}}' href="#" ng-click="render($index+1,1)"
+			<a class='nav-link<|active($index+1," active",1)|>' href="#" ng-click="render($index+1,1)"
 			ng-bind-html="ic_html(x) | trustHtml"></a>
 		</li>
 	</ul>
@@ -61,27 +61,27 @@ t4 {display: block;clear:right;}
 		      <feComposite in="SourceGraphic" in2="light"
 			 operator="arithmetic" k1="1" k2="0" k3="0" k4="0"/>
 		    </filter>
-		    <text font-size="45" font-weight="bold" x="0" y="45" fill="white" filter="url(#lightMe1)">{{title.singleNodeValue.textContent}}</text> 
+		    <text font-size="45" font-weight="bold" x="0" y="45" fill="white" filter="url(#lightMe1)"><|title.singleNodeValue.textContent|></text> 
 		 </svg>
          </div>
          <div class="col-md-9" style="padding-bottom: 20px;">
-            <img class='img-fluid' src='{{img.singleNodeValue.textContent}}'>
+            <img class='img-fluid' src='<|img.singleNodeValue.textContent|>'>
          </div>
       </div>
       <div class="row">
          <div class="col-md-3 d-none d-md-block">
                   <br>
                   <div class="btn-group-vertical btn-group-lg" style="position: fixed;">
-                     <a href='#' class='btn btn-primary{{active($index+1," active",1)}}' ng-repeat="x in pnames"
+                     <a href='#' class='btn btn-primary<|active($index+1," active",1)|>' ng-repeat="x in pnames"
 					 ng-click="render($index+1,1)" ng-bind-html="ic_html(x) | trustHtml"></a>
 					 <ul class="dropdown-menu" role="menu">
 						 <li ng-repeat="x in pnames2">
-							<a class='dropdown-item{{active($index+1," active",2)}}' href="#"
+							<a class='dropdown-item<|active($index+1," active",2)|>' href="#"
 							ng-click="render($index+1,2)" ng-bind-html="ic_html(x) | trustHtml"></a>
 						 </li>
                      </ul>
                      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                     {{title2.singleNodeValue.textContent | trustHtml}} <span class="caret"></span></button>
+                     <|title2.singleNodeValue.textContent | trustHtml|> <span class="caret"></span></button>
                   </div>
                   <br>
                   <br>
