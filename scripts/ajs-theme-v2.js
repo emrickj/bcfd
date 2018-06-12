@@ -43,21 +43,15 @@ app.controller('pname', ['$scope' ,'$rootScope' ,'$http' ,'$window' ,function($s
 			}
 			dom.push(xmldata);
 			if (flist.length != 0) xml_dom(flist); else {
-				$rootScope.title = dom[0].evaluate('/website/title', dom[0], null, XPathResult.FIRST_ORDERED_NODE_TYPE, null );
-				$rootScope.style = dom[0].evaluate('/website/style', dom[0], null, XPathResult.FIRST_ORDERED_NODE_TYPE, null );
-				$scope.pnames = [];
-				var pn = dom[0].evaluate("/website/page/name[.!='']", dom[0], null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null );
-				for ( var i=0 ; i < pn.snapshotLength; i++ ) $scope.pnames.push(pn.snapshotItem(i).textContent);
+				$rootScope.title = dom[0].querySelector("title");
+				$rootScope.style = dom[0].querySelector("style");
+				$scope.pnames = dom[0].querySelectorAll("name:not(:empty)");
 				// The following is used for contents of drop-down.
-				$scope.title2 = dom[1].evaluate('/website/title', dom[1], null, XPathResult.FIRST_ORDERED_NODE_TYPE, null );
-				$scope.pnames2 = [];
-				pn = dom[1].evaluate("/website/page/name[.!='']", dom[1], null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null );
-				for ( i=0 ; i < pn.snapshotLength; i++ ) $scope.pnames2.push(pn.snapshotItem(i).textContent);
+				$scope.title2 = dom[1].querySelector("title");
+				$scope.pnames2 = dom[1].querySelectorAll("name:not(:empty)");
 				// The following code is used for contents of an additional drop-down.
-				// $scope.title3 = dom[2].evaluate('/website/title', dom[2], null, XPathResult.FIRST_ORDERED_NODE_TYPE, null );
-				// $scope.pnames3 = [];
-				// pn = dom[2].evaluate("/website/page/name[.!='']", dom[2], null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null );
-				// for ( i=0 ; i < pn.snapshotLength; i++ ) $scope.pnames3.push(pn.snapshotItem(i).textContent);
+				// $scope.title3 = dom[2].querySelector("title");
+				// $scope.pnames3 = dom[2].querySelectorAll("name:not(:empty)");
 				// ------------------------------------------------
 				$scope.render(p,w);
 			}
@@ -72,7 +66,7 @@ app.controller('pname', ['$scope' ,'$rootScope' ,'$http' ,'$window' ,function($s
 		else return navitem;
 	};
 	var change_links = function(str) {
-		if (w > 1) while (str.includes('"?p=')) {
+		if (w > 1) while (str.indexOf('"?p=')!=-1) {
 		   str=str.replace('"?p=1','"?w='+w+'&p=1');
 		   str=str.replace('"?p=2','"?w='+w+'&p=2');
 		   str=str.replace('"?p=3','"?w='+w+'&p=3');
@@ -85,9 +79,10 @@ app.controller('pname', ['$scope' ,'$rootScope' ,'$http' ,'$window' ,function($s
 	$scope.render = function(pnum,ws) {
 		p = pnum;
 		w = ws;
-		$scope.img = dom[ws-1].evaluate('/website/page['+pnum+']/image', dom[ws-1], null, XPathResult.FIRST_ORDERED_NODE_TYPE, null );
-		cnt = dom[ws-1].evaluate('/website/page['+pnum+']/contents', dom[ws-1], null, XPathResult.FIRST_ORDERED_NODE_TYPE, null );
-		$scope.contents = change_links(cnt.singleNodeValue.textContent);
-		$scope.attr = dom[ws-1].evaluate('/website/page['+pnum+']/@type', dom[ws-1], null, XPathResult.FIRST_ORDERED_NODE_TYPE, null );
+		var cp = dom[ws-1].getElementsByTagName("page")[pnum-1];
+		$scope.img = cp.querySelector("image");
+		cnt = cp.querySelector("contents");
+		$scope.contents = change_links(cnt.textContent);
+		$scope.attr = cp.attributes.getNamedItem("type");
 	};
 }]);
