@@ -22,12 +22,12 @@ $(function() {
             $(".fl t1").css("background-color","blue");
             $(".fl t1").css("border","1px solid blue");
             $(".fl t2").css("background-color","initial");
-            $(".fl t2").css("border","1px solid initial");
+            $(".fl t2").css("border","0px solid blue");
          } else {
             $("#cu t1").css("background-color","initial");
             $("#cu t2").css("background-color","blue");
             $(".fl t1").css("background-color","initial");
-            $(".fl t1").css("border","1px solid initial");
+            $(".fl t1").css("border","0px solid blue");
             $(".fl t2").css("background-color","blue");
             $(".fl t2").css("border","1px solid blue");
          }
