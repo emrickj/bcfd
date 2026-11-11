@@ -20,12 +20,16 @@ $(function() {
             $("#cu t1").css("background-color","blue");
             $("#cu t2").css("background-color","initial");
             $(".fl t1").css("background-color","blue");
+            $(".fl t1").css("border","1px solid blue");
             $(".fl t2").css("background-color","initial");
+            $(".fl t2").css("border","1px solid initial");
          } else {
             $("#cu t1").css("background-color","initial");
             $("#cu t2").css("background-color","blue");
             $(".fl t1").css("background-color","initial");
+            $(".fl t1").css("border","1px solid initial");
             $(".fl t2").css("background-color","blue");
+            $(".fl t2").css("border","1px solid blue");
          }
          if ((flash & 7) == 0) $(".td").toggleClass("td md");
          $(".md").each(function() {
